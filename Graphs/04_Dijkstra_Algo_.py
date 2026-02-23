@@ -1,104 +1,69 @@
-"""Dijkstra's algorithm demo (self-contained).
+import heapq
 
-This file implements Dijkstra's shortest-path algorithm without importing
-anything from other project files. It operates on a simple adjacency
-representation: a dict mapping node -> list of (neighbour, weight) pairs.
-"""
-from heapq import heappush, heappop
-from typing import Dict, Tuple, List, Optional
-
-
-def dijkstra(adj: Dict[str, List[Tuple[str, float]]], source: str) -> Tuple[Dict[str, float], Dict[str, Optional[str]]]:
-    """Compute shortest path distances from source using a min-heap.
-
-    adj: adjacency mapping node -> list of (neighbour, weight)
-    Returns (dist, prev) where prev[node] is the predecessor on the shortest path.
+def dijkstra_with_path(graph, start):
     """
-    # initialize distances and predecessors
-    dist: Dict[str, float] = {n: float('inf') for n in adj.keys()}
-    prev: Dict[str, Optional[str]] = {n: None for n in adj.keys()}
+    graph: dict[node] = list of (neighbor, weight)
+    start: starting node
+    
+    Returns:
+        distances: dict of shortest distances
+        shortest_path: function(target) -> list representing path
+    """
 
-    if source not in adj:
-        raise KeyError(f"Source node {source!r} not in graph")
+    heap = [(0, start)]
+    distances = {node: float('inf') for node in graph}
+    distances[start] = 0
 
-    dist[source] = 0.0
-    heap: List[Tuple[float, str]] = [(0.0, source)]
+    # To reconstruct path
+    previous = {}
 
     while heap:
-        d, u = heappop(heap)
-        if d > dist[u]:
+        current_dist, node = heapq.heappop(heap)
+
+        if current_dist > distances[node]:
             continue
 
-        for v, w in adj.get(u, []):
-            # ensure weight is float
-            weight = float(w)
-            alt = d + weight
-            if alt < dist.get(v, float('inf')):
-                dist[v] = alt
-                prev[v] = u
-                heappush(heap, (alt, v))
+        for neighbor, weight in graph[node]:
+            new_dist = current_dist + weight
 
-    return dist, prev
+            if new_dist < distances.get(neighbor, float('inf')):
+                distances[neighbor] = new_dist
+                previous[neighbor] = node
+                heapq.heappush(heap, (new_dist, neighbor))
 
+    def shortest_path(target):
+        """Reconstruct shortest path from start to target."""
+        if distances.get(target, float('inf')) == float('inf'):
+            return None  # No path exists
 
-def reconstruct_path(prev: Dict[str, Optional[str]], target: str) -> List[str]:
-    """Reconstruct path from predecessor map; returns list of nodes (may be just [target])."""
-    path: List[str] = []
-    cur = target
-    while cur is not None:
-        path.append(cur)
-        cur = prev.get(cur)
-    return list(reversed(path))
+        path = []
+        current = target
 
+        while current != start:
+            path.append(current)
+            current = previous[current]
 
-def build_adj_from_edges(edges: List[Tuple[str, str, float]], directed: bool = True) -> Dict[str, List[Tuple[str, float]]]:
-    adj: Dict[str, List[Tuple[str, float]]] = {}
-    def ensure(n: str):
-        if n not in adj:
-            adj[n] = []
+        path.append(start)
+        path.reverse()
+        return path
 
-    for u, v, w in edges:
-        ensure(u); ensure(v)
-        adj[u].append((v, float(w)))
-        if not directed:
-            adj[v].append((u, float(w)))
+    return distances, shortest_path
 
-    return adj
+def main():
+    graph = {
+        "A": [("B", 1), ("C", 4)],
+        "B": [("C", 2), ("D", 5)],
+        "C": [("D", 1)],
+        "D": []
+    }
 
+    distances, shortest_path = dijkstra_with_path(graph, "A")
 
-def demo():
-    # Example directed weighted graph
-    edges = [
-        ('A', 'B', 1),
-        ('A', 'C', 4),
-        ('B', 'C', 2),
-        ('B', 'D', 5),
-        ('C', 'D', 1),
-        ('D', 'E', 3),
-    ]
+    print(distances)
+    # {'A': 0, 'B': 1, 'C': 3, 'D': 4}
 
-    adj = build_adj_from_edges(edges, directed=True)
+    print(shortest_path("D"))
+    # ['A', 'B', 'C', 'D']
 
-    print('Adjacency list:')
-    for u in sorted(adj.keys()):
-        print(f"  {u} -> {adj[u]}")
-
-    source = 'A'
-    dist, prev = dijkstra(adj, source)
-
-    print('\nDistances from', source)
-    for n in sorted(dist.keys()):
-        d = dist[n]
-        print(f"  {n}: {d if d != float('inf') else 'inf'}")
-
-    # show shortest path A -> E
-    target = 'E'
-    if dist.get(target, float('inf')) == float('inf'):
-        print(f"{target} is unreachable from {source}")
-    else:
-        path = reconstruct_path(prev, target)
-        print(f"Shortest path {source} -> {target}: {path} (cost {dist[target]})")
-
-
-if __name__ == '__main__':
-    demo()
+if __name__ == "__main__":
+    main()
