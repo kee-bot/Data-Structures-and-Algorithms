@@ -144,7 +144,18 @@ Notes
 3. [03_BFS.py](03_BFS.py) - Breadth-First Search (BFS) quick implementation.  
 4. [04_Dijkstra_Algo.py](04_Dijkstra_Algo.py) - Dijkstra's shortest-path algorithm implementation.  
 
+## Practice Exercises
+
+1. [01_hasPath.py](practice_exercises/01_hasPath.py) - Practice: Check if a path exists between two nodes in a graph.
+2. [02_connectedComponents.py](practice_exercises/02_connectedComponents.py) - Practice: Count connected components in an undirected graph.
+3. [03_shortestPath.py](practice_exercises/03_shortestPath.py) - Practice: Find the shortest path in an unweighted graph.
+4. [04_countIslands.py](practice_exercises/04_countIslands.py) - Practice: Count islands in a grid (DFS/BFS).
+5. [05_minIslands.py](practice_exercises/05_minIslands.py) - Practice: Minimum islands / related island operations.
+
+
 #### References
 1. https://www.youtube.com/watch?v=rHemTXFJIPM
 2. https://www.freecodecamp.org/news/dijkstras-shortest-path-algorithm-visual-introduction/
 3. https://www.youtube.com/watch?v=tWVWeAqZ0WU&pp=ygUTZnJlZWNvZGVjYW1wIGdyYXBoIA%3D%3D
+
+
