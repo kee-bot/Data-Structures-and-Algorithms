@@ -6,6 +6,8 @@ Backtracking is an algorithm which build solutions in a brute force manner where
 
 A standard template for backtrackking is as below:
 
+Note: While using a mutable candidate ensure to create a copy if appending to a result object. 
+
 ```python 
 def backtrack(candidate):
     if is_solution(candidate):
