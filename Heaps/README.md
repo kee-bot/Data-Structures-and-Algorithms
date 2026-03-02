@@ -85,3 +85,6 @@ Notes and common patterns
 3. [03_k_freq.py](practice_exercises/03_k_freq.py) - Practice: Top-k frequent elements (use heap of frequencies).
 4. [04_task_scheduler.py](practice_exercises/04_task_scheduler.py) - Practice: Task scheduler / cooldown problems (priority queue pattern).
 
+## References
+
+1. https://www.youtube.com/watch?v=lvO88XxNAzs
