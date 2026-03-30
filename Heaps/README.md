@@ -5,8 +5,6 @@ A heap is a specialized tree-based data structure that satisfies the heap proper
 - In a min-heap the parent is always <= its children (root is the minimum element).
 - In a max-heap the parent is always >= its children (root is the maximum element).
 
-Heaps are commonly used to implement priority queues, and they provide fast access to the smallest (or largest) element. A binary heap is usually stored in an array and supports the main operations in logarithmic time.
-
 ```mermaid
 graph TB
 	 A[10] --> B[15]
@@ -16,13 +14,14 @@ graph TB
 	 C --> F[100]
 ```
 
-Most questions regarding heaps follow a similar pattern (extract-min/extract-max, push, build-heap, replace). This repository uses Python; the stdlib `heapq` module implements a min-heap efficiently. Below are the common `heapq` functions and short notes/examples.
+Most questions regarding heaps follow a similar pattern (extract-min/extract-max, push, build-heap, replace).  
+
+Python has the below heapq functions which are useful while solving heap problems.
 
 1. heapq.heappop(heap)
 
 	- Description: Remove and return the smallest item from the heap.
 	- Complexity: O(log n) because the heap must be rebalanced after removal.
-	- Errors: Raises `IndexError` if the heap is empty.
 
 	Example:
 
@@ -48,7 +47,7 @@ Most questions regarding heaps follow a similar pattern (extract-min/extract-max
 3. heapq.heapify(x)
 
 	- Description: Transform list `x` into a heap, in-place.
-	- Complexity: O(n) — faster than repeated `heappush` calls.
+	- Complexity: O(n)
 
 	Example:
 
@@ -68,11 +67,6 @@ Most questions regarding heaps follow a similar pattern (extract-min/extract-max
 	val = heapq.heappushpop(heap, 4)
 	# pushes 4 and pops the smallest element in one operation
 	```
-
-Notes and common patterns
-- Max-heap: `heapq` is a min-heap by default. To simulate a max-heap, push negative values (e.g., `heapq.heappush(h, -val)`), or wrap items in a dataclass that defines ordering.
-- Build vs incremental: use `heapify()` when you have an initial list (O(n)). Use `heappush()` for incremental inserts.
-- Use `heapq.nlargest()` / `heapq.nsmallest()` for convenient top-k operations (they use heaps under the hood when appropriate).
 
 ## Implementations
 

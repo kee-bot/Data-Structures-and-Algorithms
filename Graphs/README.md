@@ -2,7 +2,6 @@
 
 A few terms: 
 1. Weighted: The edge between the two nodes have a value. Used in neural networks.
-
 2. Directed: The edges point in a particular direction. 
 
 Undirected graph:
@@ -130,12 +129,6 @@ Example trace starting at A (initial dist: A=0, B=∞, C=∞, D=∞). Heap entri
 | 6 | pop (6,D) — stale (6 > 4) → skip; heap empty → done | [] | 0, 1, 3, 4 | -, A, B, C |
 
 Final shortest distances from A: A=0, B=1, C=3, D=4. Reconstruct a path to D using predecessors: D ← C ← B ← A → path A → B → C → D.
-
-Notes
-- The heap can contain multiple entries for the same node; check for stale entries when popped (if popped distance > current dist, skip).
-- Complexity (binary heap): time O((V+E) log V), space O(V).
-- Requires non‑negative edge weights; for negative weights use Bellman–Ford.
-- Use the predecessor map (prev) to reconstruct paths by walking from target back to source and reversing.
 
 ## Implementations
 
